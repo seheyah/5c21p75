@@ -17,15 +17,13 @@ echo '\tClear Safari cookies'
 rm -f ~/Library/Cookies/Cookies.binarycookies
 
 echo '\n> Going to the system'
-a=$(du -sh /private/var/db/diagnostics/ | awk '{ print $1 }')
-#b=$(du -sh /var/db/diagnostics/ | awk '{ print $1 }')
-echo '\tClear diagnostics logs: $a'
+echo '\tClear diagnostics logs'
 sudo rm -rf /private/var/db/diagnostics/*
 sudo rm -rf /var/db/diagnostics/*
 
 echo '\tClear shared-cache strings data'
-#sudo rm -rfv /private/var/db/uuidtext/
-#sudo rm -rfv /var/db/uuidtext/
+sudo rm -rf /private/var/db/uuidtext/
+sudo rm -rf /var/db/uuidtext/
 
 echo '\tClear all system logs'
 sudo rm -rf /var/log/*
@@ -53,7 +51,7 @@ sudo rm -rf ~/Library/Caches/* &>/dev/null
 echo '\tPurge inactive memory'
 sudo purge
 
-echo '\nHardening time '
+echo '\n> Hardening time '
 echo '\tDisable AirDrop file sharing'
 defaults write com.apple.NetworkBrowser DisableAirDrop -bool true
 echo '\tDisable Bonjour multicast advertising'
@@ -64,16 +62,10 @@ echo '\tDisable insecure TFTP service'
 sudo launchctl disable 'system/com.apple.tftpd'
 echo '\tDisable printing from any address including the Internet'
 cupsctl --no-remote-any
-#echo '\tDisable Remote Apple Events'
-#sudo systemsetup -setremoteappleevents off
-#echo '\tDisable remote login (incoming SSH and SFTP connections)'
-#echo 'yes' | sudo systemsetup -setremotelogin off
 echo '\tDisable remote printer administration'
 cupsctl --no-remote-admin
 echo '\tDisable sharing of local printers with other computers'
 cupsctl --no-share-printers
-#echo '\tDisables Guest access to file shares over AF'
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess -bool NO
 echo '\tDisables Guest access to file shares over SMB'
 sudo defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool NO
 echo '\tDisables signing in as Guest from the login screen'
